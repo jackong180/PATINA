@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+title: PATINA
+message: >-
+  If you use this repository, please cite the PATINA manuscript
+  "PATINA: A Geometric Alignment and Frequency-Aware Synergy Network for Ceramic Artifact Image Inpainting"
+  and reference this software release.
+type: software
+authors:
+  - name: PATINA Authors
+license: MIT
+version: 1.0.0
+preferred-citation:
+  type: article
+  title: PATINA: A Geometric Alignment and Frequency-Aware Synergy Network for Ceramic Artifact Image Inpainting
+  authors:
+    - name: PATINA Authors
+  year: 2026

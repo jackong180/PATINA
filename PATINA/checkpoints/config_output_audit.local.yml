@@ -1,0 +1,38 @@
+MODE: 2            # 1: train, 2: test
+MODEL: 2           # 2: inpaint model
+MASK: 6            # 6: external non-random mask for evaluation
+SEED: 10
+GPU: [0]
+AUGMENTATION_TRAIN: 0
+
+TRAIN_INPAINT_IMAGE_FLIST: ../datasets/hericera6c/splits/train.flist
+TEST_INPAINT_IMAGE_FLIST: ./checkpoints/output_audit_images_4.flist
+
+TRAIN_MASK_FLIST: ../datasets/hericera6c/masks/train.flist
+TEST_MASK_FLIST: ./checkpoints/output_audit_masks_4.flist
+
+LR: 0.0001
+D2G_LR: 0.1
+BETA1: 0.9
+BETA2: 0.999
+WD: 0
+LR_Decay: 1
+
+BATCH_SIZE: 1
+INPUT_SIZE: 256
+MAX_ITERS: 10000
+
+L1_LOSS_WEIGHT: 1
+STYLE_LOSS_WEIGHT: 250
+CONTENT_LOSS_WEIGHT: 0.1
+INPAINT_ADV_LOSS_WEIGHT: 0.01
+TV_LOSS_WEIGHT: 0
+
+GAN_LOSS: lsgan
+GAN_POOL_SIZE: 0
+
+SAVE_INTERVAL: 0
+EVAL_INTERVAL: 0
+LOG_INTERVAL: 1
+
+RESULTS: ./checkpoints/output_audit_results

@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=70.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "patina-inpainting"
+version = "1.0.0"
+description = "PATINA for ceramic artifact image inpainting with geometric alignment and frequency-aware synergy."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = [
+    "image-inpainting",
+    "ceramic-artifact-restoration",
+    "patina",
+    "geometry-alignment",
+    "frequency-aware",
+    "state-space-model",
+]
+authors = [
+    { name = "PATINA Authors" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+dependencies = [
+    "numpy>=1.23.0",
+    "scipy>=1.10.0",
+    "PyYAML>=6.0",
+    "pillow>=10.0.0",
+    "imageio>=2.30.0",
+    "opencv-python>=4.8.0",
+    "scikit-image>=0.22.0",
+    "einops>=0.7.0",
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "lpips>=0.1.4",
+    "clean-fid>=0.1.35",
+    "mamba-ssm>=1.1.3.post1",
+    "causal-conv1d>=1.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ipython",
+    "pytest",
+    "ruff",
+]
+research = [
+    "wandb>=0.16.0",
+    "optuna>=3.5.0",
+]
+
+[tool.setuptools]
+packages = { find = { where = ["."], include = ["src", "src.*"] } }
+
+[tool.pytest.ini_options]
+addopts = "--color=yes"
+testpaths = ["script", "src"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+docstring-code-format = true

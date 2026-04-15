@@ -1,0 +1,116 @@
+MODE: 1            # 1: train, 2: test
+MODEL: 2            # 2: inpaint model
+MASK: 3           # 0: no mask, 1: random block, 2: center mask, 3: external, 4: 50% external, 50% random block, 5: (50% no mask, 25% ramdom block, 25% external) 6: external non-random
+SEED: 10            # random seed
+GPU: [0]            # list of gpu ids
+AUGMENTATION_TRAIN: 0 # 1: use augmentation to train landmark predictor  0:not use
+
+TRAIN_INPAINT_IMAGE_FLIST: ../datasets/hericera6c/splits/train.flist
+VAL_INPAINT_IMAGE_FLIST: ../datasets/hericera6c/splits/val.flist
+TEST_INPAINT_IMAGE_FLIST: ../datasets/hericera6c/splits/test.flist
+
+TRAIN_MASK_FLIST: ../datasets/hericera6c/masks/train.flist
+VAL_MASK_FLIST: ../datasets/hericera6c/masks/eval_val.flist
+TEST_MASK_FLIST: ../datasets/hericera6c/masks/eval_test.flist
+# i.e. -> TEST_INPAINT_IMAGE_FLIST: ./datasets/example_images.flist
+
+
+LR: 0.00005                    # learning rate
+D2G_LR: 0.1                   # discriminator/generator learning rate ratio
+BETA1: 0.9                    # adam optimizer beta1
+BETA2: 0.999                    # adam optimizer beta2
+WD: 0
+LR_Decay: 0.5
+
+
+BATCH_SIZE: 4               # input batch size for training
+INPUT_SIZE: 256               # input image size for training 0 for original size
+MAX_ITERS: 30000              # maximum number of iterations to train the model
+
+
+L1_LOSS_WEIGHT: 1             # l1 loss weight
+STYLE_LOSS_WEIGHT: 250        # style loss weight
+CONTENT_LOSS_WEIGHT: 0.1      # perceptual loss weight
+INPAINT_ADV_LOSS_WEIGHT: 0.01 # adversarial loss weight
+TV_LOSS_WEIGHT: 0           # total variation loss weight
+
+
+GAN_LOSS: lsgan               # nsgan | lsgan | hinge
+GAN_POOL_SIZE: 0              # fake images pool size
+
+
+SAVE_INTERVAL: 500          # how many iterations to wait before saving model (0: never)
+VISUALIZE_INTERVAL: 1000    # how many iterations to wait before saving train visualizations (0: never)
+EVAL_INTERVAL: 500          # how many iterations to wait before lightweight bucketed validation evaluation (0: never)
+LOG_INTERVAL: 50            # how many iterations to wait before logging training status (0: never)
+SAVE_HISTORY: 0             # 1: keep per-save full checkpoint snapshots under checkpoints/history
+AUTO_TEST_AFTER_TRAIN: 1     # 1: run full bucketed validation metrics once after training ends and save a dedicated summary
+ENABLE_LR_SCHEDULER: 1       # 0 keeps original training behavior; set to 1 only for an explicit scheduler-enabled variant
+TRAIN_NUM_WORKERS: 8
+TRAIN_PIN_MEMORY: 1
+TRAIN_PERSISTENT_WORKERS: 1
+TRAIN_PREFETCH_FACTOR: 4
+BEST_MONITOR: masked_l1_ave  # validation metric used to select best.pth
+BEST_MONITOR_MODE: min       # choose the smallest masked_l1_ave as best
+FID_MODE: clean              # cleanfid mode for bucketed evaluation
+LCBC_LATENT_ENABLE: 1
+LCBC_LATENT_EMBED_DIM: 96
+LCBC_SOFTMAX_SCALE: 10.0
+LCBC_LATENT_RES_SCALE_INIT: 0.03
+MRDA_USE_BIAS: 0
+MRDA_STAGE1_ENABLE: 1
+MRDA_STAGE2_ENABLE: 1
+MRDA_STAGE3_ENABLE: 1
+MRDA_STAGE1_RES_SCALE_INIT: 0.00
+MRDA_STAGE2_RES_SCALE_INIT: 0.06
+MRDA_STAGE3_RES_SCALE_INIT: 0.10
+DFCC_GROUPS: 1
+DFCC_FFT_NORM: ortho
+DFCC_LATENT_ENABLE: 1
+DFCC_DECODER3_ENABLE: 1
+DFCC_LATENT_INPUT_SHAPE: 32
+DFCC_DECODER3_INPUT_SHAPE: 64
+DFCC_LATENT_RES_SCALE_INIT: 0.04
+DFCC_DECODER3_RES_SCALE_INIT: 0.02
+DFCC_MASK_CONTEXT_KERNEL: 5
+LATENT_BRANCH_MIXER_ENABLE: 1
+LATENT_BRANCH_MIXER_TEMPERATURE: 1.0
+PATINA_PRECONDITION_ENABLE: 1
+PATINA_MASK_ROUTE_ENABLE: 1
+PATINA_SKIP_FUSION_ENABLE: 1
+PATINA_REFINEMENT_ENABLE: 1
+PATINA_PRECONDITION_SCALE_INIT: 0.00
+PATINA_MASK_ROUTE_SCALE_INIT: 0.005
+PATINA_SKIP_ADAPTER_RES_SCALE_INIT: 0.02
+PATINA_REFINEMENT_RES_SCALE_INIT: 0.00
+
+RESULTS:
+
+# test-only evaluation controls
+TEST_MASK_MODE: 6   # use fixed HeriCera-only eval masks for reproducible one-to-one evaluation
+VAL_MASK_BUCKETS:
+  - name: 0.01%-20%
+    min_ratio: 0.0001
+    max_ratio: 0.2
+    mask_flist: ../datasets/hericera6c/masks/eval_val_bucket_0p01pct_20pct.flist
+  - name: 20%-40%
+    min_ratio: 0.2
+    max_ratio: 0.4
+    mask_flist: ../datasets/hericera6c/masks/eval_val_bucket_20pct_40pct.flist
+  - name: 40%-60%
+    min_ratio: 0.4
+    max_ratio: 0.6
+    mask_flist: ../datasets/hericera6c/masks/eval_val_bucket_40pct_60pct.flist
+TEST_MASK_BUCKETS:
+  - name: 0.01%-20%
+    min_ratio: 0.0001
+    max_ratio: 0.2
+    mask_flist: ../datasets/hericera6c/masks/eval_test_bucket_0p01pct_20pct.flist
+  - name: 20%-40%
+    min_ratio: 0.2
+    max_ratio: 0.4
+    mask_flist: ../datasets/hericera6c/masks/eval_test_bucket_20pct_40pct.flist
+  - name: 40%-60%
+    min_ratio: 0.4
+    max_ratio: 0.6
+    mask_flist: ../datasets/hericera6c/masks/eval_test_bucket_40pct_60pct.flist
